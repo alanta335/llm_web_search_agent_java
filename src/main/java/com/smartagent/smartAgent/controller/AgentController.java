@@ -3,7 +3,9 @@ package com.smartagent.smartAgent.controller;
 import com.smartagent.smartAgent.mapper.WebSearchMapper;
 import com.smartagent.smartAgent.record.dto.response.WebSearchResponseDto;
 import com.smartagent.smartAgent.service.WebSearchAgentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smartagent.smartAgent.service.impl.ProductRecommendationServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  */
 @RestController
+@RequiredArgsConstructor
+@Slf4j
 public class AgentController {
-    @Autowired
-    private WebSearchAgentService webSearchAgentService;
-    @Autowired
-    private WebSearchMapper webSearchMapper;
+    private final WebSearchAgentService webSearchAgentService;
+    private final WebSearchMapper webSearchMapper;
+    private final ProductRecommendationServiceImpl productRecommendationService;
 
     /**
      * Handles HTTP GET requests to the /web-search-agent endpoint.
@@ -42,5 +45,17 @@ public class AgentController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new WebSearchResponseDto("Error during web searching. Please try again."));
         }
+    }
+
+//    @GetMapping("/streaming")
+//    Flux<String> streaming() {
+//        return Flux.interval(Duration.ofMillis(500))
+//                .map(sequence -> "Token " + (sequence + 1))
+//                .take(20); // simulate a stream of 20 tokens
+//    }
+
+    @GetMapping("/scape")
+    public String scape() {
+        return productRecommendationService.recommendProducts("iphone 16");
     }
 }

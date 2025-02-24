@@ -43,6 +43,7 @@ public class LLMConfiguration {
                 .modelName(llmName)
                 .logRequests(true)
                 .logResponses(true)
+                .responseFormat("json_schema")
                 .strictJsonSchema(true)
                 .build();
     }

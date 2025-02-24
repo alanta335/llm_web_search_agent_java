@@ -1,6 +1,6 @@
 package com.smartagent.smartAgent.config;
 
-import dev.langchain4j.data.document.splitter.DocumentByParagraphSplitter;
+import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
@@ -24,7 +24,7 @@ public class ingestorConfiguration {
     @Bean
     EmbeddingStoreIngestor getIngestor() {
         return EmbeddingStoreIngestor.builder()
-                .documentSplitter(new DocumentByParagraphSplitter(1024, 0, openAiTokenizer))
+                .documentSplitter(DocumentSplitters.recursive(1024, 20, openAiTokenizer))
                 .embeddingModel(embeddingModel)
                 .embeddingStore(embeddingStore)
                 .build();

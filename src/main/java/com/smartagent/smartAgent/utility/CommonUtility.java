@@ -83,6 +83,20 @@ public class CommonUtility {
         return Content.from(new TextSegment(webData, content.textSegment().metadata()));
     }
 
+    public Document getWebPageContent(String url) {
+        try {
+            return Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+                    .header("Accept-Language", "en-US,en;q=0.9")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .timeout(10000)
+                    .get();
+        } catch (Exception e) {
+            log.error("Error fetching content from URL: {}", e.getMessage());
+            throw new RuntimeException("Error fetching content from URL: " + e.getMessage());
+        }
+    }
+
     /**
      * Calculates the total token count of the given content list by estimating the token count
      * of each content's text segment.
